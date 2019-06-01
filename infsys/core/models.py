@@ -1,4 +1,12 @@
 from django.db import models
+from django.utils.text import slugify
+
+# var = models.type(blank=True) - не обязательное заполнеине поля  
+
+
+def image_folder(instance, filename):
+    filename = instance.slug + '.' + filename.split('.')[1]
+    return "{0}/{1}".format(instance.slug, filename)
 
 class weapon(models.Model):
 
@@ -84,7 +92,7 @@ class ammo(models.Model):
 
     #маркировочные оозначения
     markings=models.TextField()
-    #ammo_image-models.ImageField()
+    #ammo_image=models.ImageField()
     
     #иные сведения
     #common_view_ammo=models.ImageField()
@@ -93,3 +101,80 @@ class ammo(models.Model):
 
     def __str__(self):
         return '{} ({})'.format(self.ammo_name, self.diameter_head_part)
+
+class special_means(models.Model):
+    type1=1
+    type2=2
+    type3=3
+    type4=4
+    type5=5
+    type6=6
+    type7=7
+    type8=8
+    type9=9
+    type10=10
+    type11=11
+    type12=12
+    type13=13
+    type14=14
+    variants_of_type = (
+        (type1, 'Палки специальные'),
+        (type2, 'Специальные газовые средства'),
+        (type3, 'Средства ограничения подвижности'),
+        (type4, 'Специальные окрашивающее средства'),
+        (type5, 'Электрошоковые устройства'),
+        (type6, 'Светошоковые устройства'),
+        (type7, 'Служебные животные'),
+        (type8, 'Световые и звуковые специальные средства'),
+        (type9, 'Средства остановки транспорта'),
+        (type10, 'Средства сковывания движения'),
+        (type11, 'Водомёты'),
+        (type12, 'Бронемашины'),
+        (type13, 'Средства защиты охраняемых объектов'),
+        (type14, 'Средства разрушения преград'),
+    )
+    type_of_sm = models.IntegerField(
+        choices=variants_of_type,
+        default=type1
+    )
+    sm_title=models.CharField(max_length=100)
+    if type_of_sm == type1:
+        manufacturing_method = models.CharField(max_langth=80)
+        manufacturing_material = models.CharField(max_length=80)
+        stick_diameter = models.PositiveIntegerField()
+        stick_mass = models.PositiveIntegerField()
+        stick_length = models.PositiveIntegerField()
+        stick_description = models.TextField()
+        #stick_image = models.ImageField()
+    elif type_of_sm == type2:
+        gase_grenade_description = models.CharField(max_length=80)
+        gase_grenade_mass = models.PositiveIntegerField()
+        gase_grenade_diameter = models.PositiveIntegerField()
+        gase_grenade_length = models.PositiveIntegerField()
+        voleme_of_aerosol_cloud = models.CharField(max_length=100)
+        temprature_range_of_application = models.CharField(max_length=100)
+        #gase_grenade_image = models.ImageField()
+    
+    elif type_of_sm == type3:
+        handcuffs_descrioption = models.TextField()
+        handcuffs_material = models.CharField(max_length=200)
+        handcuffs_mass = models.PositiveIntegerField()
+        number_of_links = models.PositiveIntegerField()
+        equipment = models.TextField()
+        number_of_openings = models.CharField(max_length=160)
+        rings_diameter = models.PositiveIntegerField()
+        guarantee_period = models.PositiveIntegerField()
+
+    elif type_of_sm == type5:
+        stun_gun_formfactor = models.CharField(max_length=100)
+        operating_principle = models.CharField(max_length=100)
+        electrodes = models.CharField(max_length=200)
+        voltage = models.PositiveIntegerField()
+        efficiency = models.CharField(max_length=100)
+        stun_gun_mass = models.PositiveIntegerField()
+        stun_gun_length = models.PositiveIntegerField()
+        stun_gun_height = models.PositiveIntegerField()
+        stun_gun_width = models.PositiveIntegerField()
+        material = models.CharField(max_length=80)
+        power_methods = models.CharField(max_length=160)
+        charging = models.CharField(max_length=300)
