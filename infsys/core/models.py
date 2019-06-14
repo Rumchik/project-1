@@ -48,12 +48,12 @@ class weapon(models.Model):
 #маркировочные обозначенния 
     marking_designation_description = models.TextField()
     location_details = models.TextField()
-   # marking_image = models.ImageField(upload_to=image_folder)
+    marking_image = models.ImageField(upload_to=image_folder, blank=True)
 
 #иные сведения
     disassembly_procedure = models.TextField()
-    #weapons_photo = models.ImageField()
-    #trace_pattern_sleev_image = models.ImageField()
+    weapons_photo = models.ImageField(upload_to=image_folder, blank=True)
+    trace_pattern_sleev_image = models.ImageField(upload_to=image_folder, blank=True)
     features = models.TextField()
 
     def __str__(self):
@@ -145,7 +145,7 @@ class special_means(models.Model):
         stick_mass = models.PositiveIntegerField()
         stick_length = models.PositiveIntegerField()
         stick_description = models.TextField()
-        #stick_image = models.ImageField()
+        stick_image = models.ImageField()
     elif type_of_sm == type2:
         gase_grenade_description = models.CharField(max_length=80)
         gase_grenade_mass = models.PositiveIntegerField()
@@ -153,7 +153,7 @@ class special_means(models.Model):
         gase_grenade_length = models.PositiveIntegerField()
         voleme_of_aerosol_cloud = models.CharField(max_length=100)
         temprature_range_of_application = models.CharField(max_length=100)
-        #gase_grenade_image = models.ImageField()
+        gase_grenade_image = models.ImageField()
     
     elif type_of_sm == type3:
         handcuffs_descrioption = models.TextField()
@@ -178,3 +178,59 @@ class special_means(models.Model):
         material = models.CharField(max_length=80)
         power_methods = models.CharField(max_length=160)
         charging = models.CharField(max_length=300)
+
+
+class Vest(models.Model):
+    vest_title=models.CharField(max_length=80)
+    body_material=models.CharField(max_length=80)
+    vests_color = models.CharField(max_length=100) #нафиг?
+    vests_length = models.PositiveIntegerField()
+    vests_width = models.PositiveIntegerField()
+    vest_mass = models.CharField(max_length=20)
+    vest_size = models.CharField(max_length=40)
+    materials = models.CharField(max_length=200)
+    protection_area = models.PositiveIntegerField()   #дм^2
+    total_protection_area = models.PositiveIntegerField()
+    material_of_armor_elements = models.CharField(max_length=200)
+    protection_class = models.CharField(max_length=40)
+    cloth = models.CharField(max_length=200)
+    wearing_type = models.CharField(max_length=100)
+    vest_image = models.ImageField()
+    vest_description = models.TextField()
+        
+    def __str__(self):
+        return '{} ({})'.format(self.vest_title, self.protection_class)
+
+
+class helmet(models.Model):
+    helmet_title = models.CharField(max_length=100)
+    helmet_material = models.CharField(max_length=200)
+    helmet_hight = models.PositiveIntegerField()
+    helmet_width = models.PositiveIntegerField()
+    helmet_total_protection_area = models.PositiveIntegerField()
+    helmet_size = models.CharField(max_length=100)
+    helmet_mass = models.PositiveIntegerField()
+    helmet_protection_class = models.CharField(max_length=80)
+    helmet_image = models.ImageField()
+    helmet_description = models.TextField(blank=True)
+        
+    def __str__(self):
+        return '{} ({})'.format(self.helmet_title, self.helmet_protection_class)
+
+class service_animals(models.Model):
+    at1 = 0
+    at2 = 1
+    animals = (
+        (at1, 'Собака'),
+        (at2, 'Лощадь'),
+    )
+    animals_type = models.IntegerField(
+        choices=animals,
+        default = at1
+    )
+    kind = models.CharField(max_length=100)
+    average_hight = models.PositiveIntegerField()
+    average_lenght =models.PositiveIntegerField(blank=True)
+    using_for = models.TextField()
+    jaws_strength = models.PositiveIntegerField()
+    animals_image = models.ImageField()
