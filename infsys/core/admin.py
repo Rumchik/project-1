@@ -1,5 +1,8 @@
+#Здесь регистрируются модели для БД
 from django.contrib import admin
 from core.models import weapon
+from core.models import gas_weapon
+from core.models import air_weapon
 from core.models import ammo
 from core.models import Vest
 from core.models import helmet
@@ -10,6 +13,8 @@ from core.models import mobility_limiting_means
 from core.models import stun_devices
 
 admin.site.register(weapon)
+admin.site.register(gas_weapon)
+admin.site.register(air_weapon)
 admin.site.register(ammo)
 admin.site.register(Vest)
 admin.site.register(helmet)

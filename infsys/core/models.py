@@ -1,20 +1,30 @@
+"""
+Здесь содержатся все элементы БД и их атрибуты
+Больше картинок
+сделать поиск по разным полям
+База в виде слайдера
+Отдельая форма подробного поиска
+связь оружия и патрона
+одна форма
+"""
 from __future__ import unicode_literals
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from transliterate import translit
+from django.db.models.signals import pre_save
  #var = models.type(blank=True) - не обязательное заполнеине поля  
 
 
 def image_folder(instance, filename):
     filename = instance.slug + '.' + filename.split('.')[1]
     return "{0}/{1}".format(instance.slug, filename)
-
+'''
 def pre_save_category_slug(sender, instance, *args, **kwargs):
     if not instance.slug:
         slug = slugify(translit(str(instance.name), reversed=True))
         instance.slug = slug
-
+'''
 class weapon(models.Model):
 
 #основные характеристики
@@ -39,7 +49,7 @@ class weapon(models.Model):
     angle_between_hook_reflector = models.PositiveIntegerField(verbose_name = "Угол между зацепом выбрасывателя и отражателем")
     chamber_shape = models.PositiveIntegerField(verbose_name = "Форма патронника")
     chamber_length = models.PositiveIntegerField(verbose_name = "Длина патронника")
-    trace_pattern_sleev = models.TextField(verbose_name = "Схема следов на гильзе")
+    trace_pattern_sleev = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Схема следов на гильзе")#рисунок
 
 # технические характеристики
     sleeves_reflection = models.TextField(verbose_name = "Отражение гильзы")
@@ -48,7 +58,7 @@ class weapon(models.Model):
     trigger_mech = models.TextField(verbose_name = "Ударно-спусковой механизм")
     safety_catch = models.TextField(verbose_name = "Предохранитель")
     liner_removal_mech = models.TextField(verbose_name = "Механиз удаления гильзы")
-    used_ammo = models.TextField(verbose_name = "Применяемый патрон")
+    used_ammo = models.TextField(verbose_name = "Применяемый патрон")#связь с патронами
     magazine = models.TextField(verbose_name = "Магазин")
     magazines_capacity = models.PositiveIntegerField(verbose_name = "Ёмкость магазина, патронов")
 
@@ -63,10 +73,11 @@ class weapon(models.Model):
     trace_pattern_sleev_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение следообразующих деталей")
     features = models.TextField(verbose_name = "Технические и иные особенности, характерные для этой модели")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+   # weapon_slug = models.SlugField()
+    #CharField(max_length=255, unique=True, blank=True)
 
-    def get_absolute_url(self):
-        return reverse("weapon", kwargs={"slug": self.slug})
+   # def get_absolute_url(self):
+   #     return reverse("weapon", kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = 'Оружие'
@@ -75,6 +86,130 @@ class weapon(models.Model):
 
     def __str__(self):
         return '{} ({})'.format(self.weapons_name, self.length)
+
+class gas_weapon(models.Model):
+
+#основные характеристики
+    gas_weapons_name = models.CharField(max_length=100, verbose_name = "Название")
+    producer = models.CharField(max_length=100, verbose_name = "Производитель")
+    length = models.PositiveIntegerField(verbose_name = "Длина")
+    height = models.PositiveIntegerField(verbose_name = "Высота")
+    width = models.PositiveIntegerField(verbose_name = "Ширина")
+    barrel_length = models.PositiveIntegerField(verbose_name = "Длина ствола")
+    mass = models.PositiveIntegerField(verbose_name = "Масса")
+    caliber = models.PositiveIntegerField(verbose_name = "Калибр")
+
+#характеристики следообразующих деталей
+    method_manufacture_barrel = models.TextField(verbose_name = "Способ изготовления ствола")
+    number_rifling = models.PositiveIntegerField(verbose_name = "Количество нарезов")
+    direction_rifling = models.TextField(verbose_name = "Направление нарезов")
+    width_fields_rifling = models.PositiveIntegerField(verbose_name = "Ширина полей нарезов")
+    angle_rifling = models.PositiveIntegerField(verbose_name = "Угол наклона нарезов")
+    gas_outlet = models.TextField(verbose_name = "Наличае газоотводного отверстия в канале ствола")
+    strikers_diameter = models.PositiveIntegerField(verbose_name = "Диаметр бойка, мм")
+    width_hook_extractor = models.PositiveIntegerField(verbose_name = "Ширина зацепа выбрасывателя")
+    angle_between_hook_reflector = models.PositiveIntegerField(verbose_name = "Угол между зацепом выбрасывателя и отражателем")
+    chamber_shape = models.PositiveIntegerField(verbose_name = "Форма патронника")
+    chamber_length = models.PositiveIntegerField(verbose_name = "Длина патронника")
+    trace_pattern_sleev = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Схема следов на гильзе")#рисунок
+
+# технические характеристики
+    sleeves_reflection = models.TextField(verbose_name = "Отражение гильзы")
+    automation_principle = models.TextField(verbose_name = "Принцип отражателя")
+    locking_mech = models.TextField(verbose_name = "Механизм запирания ствола")
+    trigger_mech = models.TextField(verbose_name = "Ударно-спусковой механизм")
+    safety_catch = models.TextField(verbose_name = "Предохранитель")
+    liner_removal_mech = models.TextField(verbose_name = "Механиз удаления гильзы")
+    used_ammo = models.TextField(verbose_name = "Применяемый патрон")#связь с патронами
+    magazine = models.TextField(verbose_name = "Магазин")
+    magazines_capacity = models.PositiveIntegerField(verbose_name = "Ёмкость магазина, патронов")
+
+#маркировочные обозначенния 
+    marking_designation_description = models.TextField(verbose_name = "Маркировочные обозначения (описание)")
+    location_details = models.TextField(verbose_name = "Расположение на деталях оружия")
+    marking_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение маркировочных значений")
+
+#иные сведения
+    disassembly_procedure = models.TextField(verbose_name = "Порядок неполной сборки и разборки")
+    weapons_photo = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение оружия")
+    trace_pattern_sleev_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение следообразующих деталей")
+    features = models.TextField(verbose_name = "Технические и иные особенности, характерные для этой модели")
+
+   # weapon_slug = models.SlugField()
+    #CharField(max_length=255, unique=True, blank=True)
+
+   # def get_absolute_url(self):
+   #     return reverse("weapon", kwargs={"slug": self.slug})
+
+    class Meta:
+        verbose_name = 'Газовое оружие'
+        verbose_name_plural = 'Газовое оружие'
+
+
+    def __str__(self):
+        return '{} ({})'.format(self.gas_weapons_name, self.length)
+
+class air_weapon(models.Model):
+
+#основные характеристики
+    air_weapons_name = models.CharField(max_length=100, verbose_name = "Название")
+    producer = models.CharField(max_length=100, verbose_name = "Производитель")
+    length = models.PositiveIntegerField(verbose_name = "Длина")
+    height = models.PositiveIntegerField(verbose_name = "Высота")
+    width = models.PositiveIntegerField(verbose_name = "Ширина")
+    barrel_length = models.PositiveIntegerField(verbose_name = "Длина ствола")
+    mass = models.PositiveIntegerField(verbose_name = "Масса")
+    caliber = models.PositiveIntegerField(verbose_name = "Калибр")
+
+#характеристики следообразующих деталей
+    method_manufacture_barrel = models.TextField(verbose_name = "Способ изготовления ствола")
+    number_rifling = models.PositiveIntegerField(verbose_name = "Количество нарезов")
+    direction_rifling = models.TextField(verbose_name = "Направление нарезов")
+    width_fields_rifling = models.PositiveIntegerField(verbose_name = "Ширина полей нарезов")
+    angle_rifling = models.PositiveIntegerField(verbose_name = "Угол наклона нарезов")
+    gas_outlet = models.TextField(verbose_name = "Наличае газоотводного отверстия в канале ствола")
+    strikers_diameter = models.PositiveIntegerField(verbose_name = "Диаметр бойка, мм")
+    width_hook_extractor = models.PositiveIntegerField(verbose_name = "Ширина зацепа выбрасывателя")
+    angle_between_hook_reflector = models.PositiveIntegerField(verbose_name = "Угол между зацепом выбрасывателя и отражателем")
+    chamber_shape = models.PositiveIntegerField(verbose_name = "Форма патронника")
+    chamber_length = models.PositiveIntegerField(verbose_name = "Длина патронника")
+    trace_pattern_sleev = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Схема следов на гильзе")#рисунок
+
+# технические характеристики
+    sleeves_reflection = models.TextField(verbose_name = "Отражение гильзы")
+    automation_principle = models.TextField(verbose_name = "Принцип отражателя")
+    locking_mech = models.TextField(verbose_name = "Механизм запирания ствола")
+    trigger_mech = models.TextField(verbose_name = "Ударно-спусковой механизм")
+    safety_catch = models.TextField(verbose_name = "Предохранитель")
+    liner_removal_mech = models.TextField(verbose_name = "Механиз удаления гильзы")
+    used_ammo = models.TextField(verbose_name = "Применяемый патрон")#связь с патронами
+    magazine = models.TextField(verbose_name = "Магазин")
+    magazines_capacity = models.PositiveIntegerField(verbose_name = "Ёмкость магазина, патронов")
+
+#маркировочные обозначенния 
+    marking_designation_description = models.TextField(verbose_name = "Маркировочные обозначения (описание)")
+    location_details = models.TextField(verbose_name = "Расположение на деталях оружия")
+    marking_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение маркировочных значений")
+
+#иные сведения
+    disassembly_procedure = models.TextField(verbose_name = "Порядок неполной сборки и разборки")
+    weapons_photo = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение оружия")
+    trace_pattern_sleev_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение следообразующих деталей")
+    features = models.TextField(verbose_name = "Технические и иные особенности, характерные для этой модели")
+
+   # weapon_slug = models.SlugField()
+    #CharField(max_length=255, unique=True, blank=True)
+
+   # def get_absolute_url(self):
+   #     return reverse("weapon", kwargs={"slug": self.slug})
+
+    class Meta:
+        verbose_name = 'Пневматическое ружие'
+        verbose_name_plural = 'Пневматическое ружие'
+
+
+    def __str__(self):
+        return '{} ({})'.format(self.air_weapons_name, self.length)
 
 class ammo(models.Model):
     #общие характеристики
@@ -117,7 +252,7 @@ class ammo(models.Model):
     common_view_bullet = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "общее изображение пули")
     pack_common_view = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение упаковки")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+   # ammo_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Патроны'
@@ -152,7 +287,7 @@ class special_sticks(models.Model):
     stick_description = models.TextField(verbose_name = "Описание")
     stick_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображенрие")
     
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #ss_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Палки специальные'
@@ -171,7 +306,7 @@ class special_gas_facilities(models.Model):
     temprature_range_of_application = models.CharField(max_length=100, blank=True, verbose_name = "Температурная область примениея")
     gase_grenade_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
     
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #sgf_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Специальные газовые средства'
@@ -192,7 +327,7 @@ class mobility_limiting_means(models.Model):
     guarantee_period = models.PositiveIntegerField(verbose_name = "Период гарантии")
     handcuffs_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #mlm_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Средства ограничения подвижности'
@@ -218,7 +353,7 @@ class stun_devices(models.Model):
     stun_gun_description = models.TextField(blank=True, verbose_name = "Описание")
     stun_gun_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #sd_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
        verbose_name = 'Электрошоковые устройства'
@@ -245,7 +380,7 @@ class Vest(models.Model):
     vest_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
     vest_description = models.TextField(verbose_name = "Описание")
     
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #vest_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
        verbose_name = 'Бронежилеты'
@@ -267,7 +402,7 @@ class helmet(models.Model):
     helmet_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
     helmet_description = models.TextField(blank=True, verbose_name = "Описание")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #helmet_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Шлемы'
@@ -281,7 +416,7 @@ class service_animals(models.Model):
     at2 = 1
     animals = (
         (at1, 'Собака'),
-        (at2, 'Лощадь'),
+        (at2, 'Лошадь'),
     )
     animals_type = models.IntegerField(
         choices=animals,
@@ -296,7 +431,7 @@ class service_animals(models.Model):
     animals_description = models.TextField(blank=True, verbose_name = "Описание")
     animals_image = models.ImageField(upload_to=image_folder, blank=True, verbose_name = "Изображение")
 
-    slug = models.CharField(max_length=255, unique=True, blank=True)
+    #sa_slug = models.CharField(max_length=255, unique=True, blank=True)
 
     class Meta:
         verbose_name = 'Служебные животные'

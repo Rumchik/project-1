@@ -1,0 +1,264 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Информационная карта</title>
+    <link rel="icon" href="image/favicon.png">
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js" nonce="9308276136BB774F8DDC655077014BE2" charset="UTF-8"></script><style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background-image: url(image/dad.jpg);
+        }
+
+        #container {
+            margin-top: -10px;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            color: white;
+        }
+
+        #header {
+            margin-top: 20px;
+            background-image: url(image/gag.png);
+            width: 100%;
+            height: 9em;
+            font-size: 1em;
+        }
+
+            #header h1 {
+                margin: 0;
+                font-weight: bold;
+                text-align: center;
+                font-size: 3em;
+                color: white;
+            }
+
+            #header p {
+                margin: 0;
+                font-size: 1.8em;
+                text-align: center;
+            }
+
+                #header p.company {
+                    margin-top: 0.1em;
+                    font-size: 2em;
+                    font-style: italic;
+                    text-align: center;
+                }
+
+
+        #sidebar {
+            background-image: url(image/gag.png);
+            margin-top: 50px;
+            margin-bottom: 50px;
+            float: left;
+            margin-left: 50px;
+            width: 43%;
+            height: 420px;
+        }
+
+        #content {
+            background-image: url(image/gag.png);
+            margin-top: 50px;
+            float: right;
+            width: 22%;
+            height: 420px;
+        }
+
+            #content p {
+                margin-left: 0.5em;
+                text-align: left;
+                font-size: 2em;
+            }
+
+        #content2 {
+            background-image: url(image/gag.png);
+            margin-top: 50px;
+            margin-right: 40px;
+            float: right;
+            width: 27%;
+            height: 420px;
+        }
+
+            #content2 p {
+                margin-left: 0.5em;
+                text-align: left;
+                font-size: 2em;
+            }
+
+
+        #clear {
+            padding-top: 10px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            background-image: url(image/gag.png);
+            clear: both;
+            margin-left: 50px;
+            width: 1403.5px;
+            height: auto;
+            margin-bottom: 2.5em;
+        }
+
+            #clear p {
+                font-weight: bold;
+                margin-left: 0.5em;
+                margin-top: 0.1em;
+                text-align: left;
+                font-size: 2em;
+                word-break: break-all;
+            }
+
+        #footer {
+            background-image: url(image/gag.png);
+            text-align: center;
+            margin-top: 0;
+            width: 100%;
+            height: 30px;
+        }
+
+        .slider {
+            width: 640px;
+            position: relative;
+            padding-top: 320px;
+            margin: 10px auto;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.75);
+        }
+
+            .slider > img {
+                position: absolute;
+                left: 0;
+                top: 0;
+                transition: all 0.5s;
+            }
+
+            .slider input[name='slide_switch'] {
+                display: none;
+            }
+
+            .slider label {
+                margin: 18px 0 0 18px;
+                border: 3px solid #999;
+                float: left;
+                cursor: pointer;
+                transition: all 0.5s;
+                opacity: 0.6;
+            }
+
+                .slider label img {
+                    display: block;
+                }
+
+            .slider input[name='slide_switch']:checked + label {
+                border-color: #666;
+                opacity: 1;
+            }
+
+            .slider input[name='slide_switch'] ~ img {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+
+            .slider input[name='slide_switch']:checked + label + img {
+                opacity: 1;
+                transform: scale(1);
+            }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1>РЕВОЛЬВЕР СЛУЖЕБНЫЙ РСЛ-1 КАЛИБРА 9Х17</h1>
+            <p>Предприятие:</p>
+            <p class="company">Тульский оружейный завод имени Ленина 1323</p>
+        </div>
+        <div id="sidebar">
+
+
+
+            <div class="slider">
+                <input type="radio" name="slide_switch" id="id1" />
+                <label for="id1">
+                    <img src="http://thecodeplayer.com/uploads/media/3yiC6Yq.jpg" width="100" />
+                </label>
+                <img src="http://thecodeplayer.com/uploads/media/3yiC6Yq.jpg" />
+                <input type="radio" name="slide_switch" id="id2" checked="checked" />
+                <label for="id2">
+                    <img src="http://thecodeplayer.com/uploads/media/40Ly3VB.jpg" width="100" />
+                </label>
+                <img src="http://thecodeplayer.com/uploads/media/40Ly3VB.jpg" />
+
+                <input type="radio" name="slide_switch" id="id3" />
+                <label for="id3">
+                    <img src="http://thecodeplayer.com/uploads/media/00kih8g.jpg" width="100" />
+                </label>
+                <img src="http://thecodeplayer.com/uploads/media/00kih8g.jpg" />
+
+                <input type="radio" name="slide_switch" id="id4" />
+                <label for="id4">
+                    <img src="http://thecodeplayer.com/uploads/media/2rT2vdx.jpg" width="100" />
+                </label>
+                <img src="http://thecodeplayer.com/uploads/media/2rT2vdx.jpg" />
+
+                <input type="radio" name="slide_switch" id="id5" />
+                <label for="id5">
+                    <img src="http://thecodeplayer.com/uploads/media/8k3N3EL.jpg" width="100" />
+                </label>
+                <img src="http://thecodeplayer.com/uploads/media/8k3N3EL.jpg" />
+            </div>
+
+
+
+
+
+        </div>
+
+        <div id="content2">
+            <p>Диаметр корпуса:</p>
+            <p>Диаметр донного упора:</p>
+            <p>
+                Диаметр фланца:
+            </p>
+            <p>
+                Форма:
+            </p>
+            <p>
+                Диаметр капсюля:
+            </p>
+        </div>
+
+        <div id="content">
+            <p>Длина:</p>
+            <p>Масса патрона:</p>
+            <p>Масса заряда:</p>
+            <p>Длина гильзы:</p>
+            <p>Длина дульца:</p>
+        </div>
+
+        <div id="clear">
+            <p>Тип воспламенителя:</p>
+            <p>Способ крепления пули с гильзой:</p>
+            <p>Диаметр корпуса у ската:</p>
+            <p>Диаметр корпуса у донного упора:</p>
+            <p>Цвет материала:</p>
+            <p>Тип капсуля:</p>
+            <p>Цвет материала капсюля:</p>
+            <p>Длина головной части:</p>
+            <p>Длина пули:</p>
+            <p>Диаметр ведущей части:</p>
+            <p>Масса пули:</p>
+            <p>Тип пули:</p>
+        </div>
+
+        <div id="footer">
+            <h2>
+                Официальная информационно-справочная система экспертного назначения
+                МосУ МВД России имени В.Я. Кикотя &copy; 2019, МВД России
+            </h2>
+        </div>
+    </div>
+</body>
+</html>
